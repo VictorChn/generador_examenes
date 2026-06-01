@@ -18,9 +18,8 @@ function menu_activo($archivo, $pagina_actual)
     <div class="app">
         <aside class="sidebar">
             <div class="marca">
-                <div class="emblema">
-                    <span class="emblema-libro">II</span>
-                    <span class="emblema-estrella">*</span>
+                <div style="display: flex; justify-content: center; margin-bottom: 12px;">
+                    <img src="imagenes/Logo.png" alt="Logo Instituto" style="width: 300px; height: auto; mix-blend-mode: lighten;">
                 </div>
                 <div class="marca-texto">
                     <strong>INSTITUTO<br>EDUCATIVO</strong>
