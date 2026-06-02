@@ -28,7 +28,7 @@ function menu_activo($archivo, $pagina_actual)
             </div>
 
             <nav class="menu">
-                <a class="<?php echo menu_activo('index.php', $pagina_actual); ?>" href="index.php">
+                <a class="<?php echo menu_activo('dashboard.php', $pagina_actual); ?>" href="dashboard.php">
                     <span class="menu-icono">[]</span> Dashboard
                 </a>
                 <a class="<?php echo menu_activo('preguntas.php', $pagina_actual) . menu_activo('agregar_pregunta.php', $pagina_actual) . menu_activo('editar_pregunta.php', $pagina_actual); ?>" href="preguntas.php">
