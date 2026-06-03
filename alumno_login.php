@@ -128,6 +128,7 @@
             margin-bottom: 24px;
         }
 
+<<<<<<< HEAD
          .btn-submit:hover {
             background: #0f172a;
         }
@@ -150,6 +151,12 @@
             color: var(--azul-900);
         }
 
+=======
+        .btn-submit:hover {
+            background: #0f172a;
+        }
+
+>>>>>>> b0ce2526d8b7fbcd61a207990251e08376002d93
         .divider {
             height: 1px;
             background: var(--linea);
@@ -218,6 +225,7 @@
                 </button>
             </form>
 
+<<<<<<< HEAD
             <a href="index.php" class="btn-secondary-link">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -226,6 +234,8 @@
                 Regresar al inicio
             </a>
 
+=======
+>>>>>>> b0ce2526d8b7fbcd61a207990251e08376002d93
             <div class="divider"></div>
 
             <div class="info-box">

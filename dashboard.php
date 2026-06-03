@@ -59,6 +59,12 @@ $consulta_rendimiento = mysqli_query($conexion, "
 $datos_rendimiento = [];
 if ($consulta_rendimiento) {
     while ($row = mysqli_fetch_assoc($consulta_rendimiento)) {
+<<<<<<< HEAD
+=======
+        // La calificación es sobre 10 o 100? En la base de datos es DECIMAL(5,2). Asumiremos sobre 100.
+        // Si calificacion máxima es 10, lo multiplicamos por 10. Si es 100 lo dejamos.
+        // Por seguridad, si el promedio es <= 10, asumimos base 10.
+>>>>>>> b0ce2526d8b7fbcd61a207990251e08376002d93
         $promedio_calc = $row['promedio'];
         if ($promedio_calc <= 10 && $promedio_calc > 0) {
             $promedio_calc *= 10; 
@@ -305,3 +311,7 @@ $actividad = mysqli_query($conexion, "
 </section>
 
 <?php include 'includes/footer.php'; ?>
+<<<<<<< HEAD
+=======
+
+>>>>>>> b0ce2526d8b7fbcd61a207990251e08376002d93
