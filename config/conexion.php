@@ -2,7 +2,7 @@
 $servidor = "localhost";
 $usuario = "root";
 $password = "";
-$base_datos = "generador_examenes";
+$base_datos = "base_datos";
 
 $conexion = mysqli_connect($servidor, $usuario, $password, $base_datos);
 

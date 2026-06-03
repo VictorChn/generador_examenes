@@ -1,129 +1,184 @@
 <?php
-include 'config/conexion.php';
-include 'includes/header.php';
-
-$total_temas = 0;
-$total_preguntas = 0;
-$total_examenes = 0;
-$total_resultados = 0;
-$promedio_general = 0;
-
-$consulta_temas = mysqli_query($conexion, "SELECT COUNT(*) AS total FROM temas");
-$consulta_preguntas = mysqli_query($conexion, "SELECT COUNT(*) AS total FROM preguntas");
-$consulta_examenes = mysqli_query($conexion, "SELECT COUNT(*) AS total FROM examenes");
-$consulta_resultados = mysqli_query($conexion, "SELECT COUNT(*) AS total, AVG(calificacion) AS promedio FROM resultados");
-
-if ($consulta_temas) $total_temas = mysqli_fetch_assoc($consulta_temas)['total'];
-if ($consulta_preguntas) $total_preguntas = mysqli_fetch_assoc($consulta_preguntas)['total'];
-if ($consulta_examenes) $total_examenes = mysqli_fetch_assoc($consulta_examenes)['total'];
-if ($consulta_resultados) {
-    $fila_resultados = mysqli_fetch_assoc($consulta_resultados);
-    $total_resultados = $fila_resultados['total'];
-    $promedio_general = $fila_resultados['promedio'] ?? 0;
-}
-
-$actividad = mysqli_query($conexion, "
-    SELECT titulo AS detalle, fecha_creacion AS fecha, 'Examen generado' AS actividad
-    FROM examenes
-    ORDER BY fecha_creacion DESC
-    LIMIT 5
-");
+// Página principal de inicio (Landing)
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Evaluación - Instituto Educativo</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, var(--azul-900) 0%, #1e3a8a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+        }
 
-<div class="page-head">
-    <div>
-        <h1>Bienvenido, Profesor</h1>
-        <p>Aqui tienes un resumen de tu actividad academica.</p>
+        .header-top {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .logo-container {
+            width: 260px;
+            height: 260px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.02);
+        }
+
+        .logo-container img {
+            width: 450px;
+            height: auto;
+            mix-blend-mode: lighten;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin: 0 0 10px 0;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .institution-name {
+            font-size: 18px;
+            margin-bottom: 60px;
+        }
+
+        .cards-grid {
+            display: flex;
+            gap: 30px;
+            max-width: 900px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .role-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 320px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .role-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .role-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .role-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .role-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-top">
+        Plataforma de Evaluación Institucional
     </div>
-    <a class="boton boton-secundario" href="generar_examen.php">+ Generar nuevo examen</a>
-</div>
 
-<section class="stats-grid">
-    <article class="tarjeta stat-card">
-        <div class="stat-icono stat-azul">+</div>
-        <div>
-            <h3>Examenes generados</h3>
-            <strong class="stat-numero"><?php echo $total_examenes; ?></strong>
-            <small>Registrados en el sistema</small>
+    <div class="main-container">
+        <div class="logo-container">
+            <img src="imagenes/Logo.png" alt="Logo Instituto Educativo">
         </div>
-    </article>
 
-    <article class="tarjeta stat-card">
-        <div class="stat-icono stat-verde">P</div>
-        <div>
-            <h3>Alumnos evaluados</h3>
-            <strong class="stat-numero"><?php echo $total_resultados; ?></strong>
-            <small>Resultados guardados</small>
-        </div>
-    </article>
+        <h1>Sistema de Evaluación</h1>
+        <div class="marca-texto">
+                    <strong>INSTITUTO<br>EDUCATIVO</strong>
+                    <span>FORMANDO FUTURO</span>
+                </div>
+                <br>
 
-    <article class="tarjeta stat-card">
-        <div class="stat-icono stat-amarillo">%</div>
-        <div>
-            <h3>Promedio general</h3>
-            <strong class="stat-numero"><?php echo number_format($promedio_general, 0); ?>%</strong>
-            <small>Calificacion promedio</small>
-        </div>
-    </article>
-
-    <article class="tarjeta stat-card">
-        <div class="stat-icono stat-morado">?</div>
-        <div>
-            <h3>Preguntas en banco</h3>
-            <strong class="stat-numero"><?php echo $total_preguntas; ?></strong>
-            <small><?php echo $total_temas; ?> temas registrados</small>
-        </div>
-    </article>
-</section>
-
-<section class="panel-grid">
-    <article class="tarjeta">
-        <h2>Actividad reciente</h2>
-        <?php if ($actividad && mysqli_num_rows($actividad) > 0) { ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Actividad</th>
-                        <th>Detalle</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($fila = mysqli_fetch_assoc($actividad)) { ?>
-                        <tr>
-                            <td><span class="badge badge-azul"><?php echo htmlspecialchars($fila['actividad']); ?></span></td>
-                            <td><?php echo htmlspecialchars($fila['detalle']); ?></td>
-                            <td><?php echo $fila['fecha']; ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        <?php } else { ?>
-            <p class="subtitulo">Todavia no hay examenes generados.</p>
-        <?php } ?>
-    </article>
-
-    <article class="tarjeta">
-        <h2>Accesos rapidos</h2>
-        <div class="quick-list">
-            <a class="quick-item" href="generar_examen.php">
-                <span class="stat-icono stat-azul">+</span>
-                <span><strong>Generar nuevo examen</strong><span>Crea un examen aleatorio</span></span>
+        <div class="cards-grid">
+            <a href="alumno_login.php" class="role-card">
+                <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <div class="role-title">Alumno</div>
+                <div class="role-desc">Módulo de resolución de exámenes y evaluación para estudiantes.</div>
             </a>
-            <a class="quick-item" href="agregar_pregunta.php">
-                <span class="stat-icono stat-verde">?</span>
-                <span><strong>Agregar pregunta</strong><span>Anade nuevas preguntas al banco</span></span>
-            </a>
-            <a class="quick-item" href="preguntas.php">
-                <span class="stat-icono stat-amarillo">#</span>
-                <span><strong>Banco de preguntas</strong><span>Consulta y administra preguntas</span></span>
-            </a>
-            <a class="quick-item" href="estadisticas.php">
-                <span class="stat-icono stat-morado">%</span>
-                <span><strong>Ver estadisticas</strong><span>Analiza el rendimiento por tema</span></span>
+
+            <a href="dashboard.php" class="role-card">
+                <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                <div class="role-title">Docente</div>
+                <div class="role-desc">Módulo de administración de banco de preguntas y generación de exámenes.</div>
             </a>
         </div>
-    </article>
-</section>
+    </div>
 
-<?php include 'includes/footer.php'; ?>
+    <div class="footer">
+        &copy; <?php echo date('Y'); ?> Instituto Educativo. Todos los derechos reservados.
+    </div>
+</body>
+</html>

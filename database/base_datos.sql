@@ -67,6 +67,15 @@ CREATE TABLE respuestas_estudiante (
         ON DELETE CASCADE
 );
 
+CREATE TABLE restablecimientos_password (
+    id_restablecimiento INT AUTO_INCREMENT PRIMARY KEY,
+    correo VARCHAR(100) NOT NULL,
+    token VARCHAR(100) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expirado TINYINT(1) DEFAULT 0
+);
+
 INSERT INTO temas (nombre, descripcion) VALUES
 ('Matematicas', 'Preguntas relacionadas con operaciones y razonamiento matematico.'),
 ('Historia', 'Preguntas sobre hechos historicos.'),

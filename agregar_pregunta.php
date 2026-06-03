@@ -24,35 +24,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($id_tema == "" || $tipo == "" || $enunciado == "" || $respuesta_correcta == "") {
         $mensaje = "<div class='mensaje mensaje-error'>Completa los campos obligatorios.</div>";
     } else {
-        $sql = "INSERT INTO preguntas (
-                    id_tema,
-                    tipo,
-                    enunciado,
-                    opcion_a,
-                    opcion_b,
-                    opcion_c,
-                    opcion_d,
-                    respuesta_correcta
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $stmt = mysqli_prepare($conexion, $sql);
-        mysqli_stmt_bind_param(
-            $stmt,
-            "isssssss",
-            $id_tema,
-            $tipo,
-            $enunciado,
-            $opcion_a,
-            $opcion_b,
-            $opcion_c,
-            $opcion_d,
-            $respuesta_correcta
-        );
-
-        if (mysqli_stmt_execute($stmt)) {
-            $mensaje = "<div class='mensaje mensaje-exito'>Pregunta registrada correctamente.</div>";
+        $sql_check = "SELECT id_pregunta FROM preguntas WHERE enunciado = ?";
+        $stmt_check = mysqli_prepare($conexion, $sql_check);
+        mysqli_stmt_bind_param($stmt_check, "s", $enunciado);
+        mysqli_stmt_execute($stmt_check);
+        mysqli_stmt_store_result($stmt_check);
+        
+        if (mysqli_stmt_num_rows($stmt_check) > 0) {
+            $mensaje = "<div class='mensaje mensaje-error'>Esta pregunta ya fue registrada, por favor cree otra pregunta</div>";
         } else {
-            $mensaje = "<div class='mensaje mensaje-error'>Error al registrar la pregunta.</div>";
+            $sql = "INSERT INTO preguntas (
+                        id_tema,
+                        tipo,
+                        enunciado,
+                        opcion_a,
+                        opcion_b,
+                        opcion_c,
+                        opcion_d,
+                        respuesta_correcta
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmt = mysqli_prepare($conexion, $sql);
+            mysqli_stmt_bind_param(
+                $stmt,
+                "isssssss",
+                $id_tema,
+                $tipo,
+                $enunciado,
+                $opcion_a,
+                $opcion_b,
+                $opcion_c,
+                $opcion_d,
+                $respuesta_correcta
+            );
+
+            if (mysqli_stmt_execute($stmt)) {
+                $mensaje = "<div class='mensaje mensaje-exito'>Pregunta registrada correctamente.</div>";
+            } else {
+                $mensaje = "<div class='mensaje mensaje-error'>Error al registrar la pregunta.</div>";
+            }
         }
     }
 }

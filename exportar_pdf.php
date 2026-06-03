@@ -2,7 +2,7 @@
 include 'config/conexion.php';
 
 if (!isset($_GET['id'])) {
-    header("Location: index.php");
+    header("Location: dashboard.php");
     exit;
 }
 
@@ -24,7 +24,7 @@ $consulta_resultado = mysqli_stmt_get_result($stmt_resultado);
 $resultado = mysqli_fetch_assoc($consulta_resultado);
 
 if (!$resultado) {
-    header("Location: index.php");
+    header("Location: dashboard.php");
     exit;
 }
 
